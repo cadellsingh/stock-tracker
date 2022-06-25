@@ -1,11 +1,18 @@
 .DS_Store
 node_modules
 /dist
-
+/coverage
 
 # local env files
 .env.local
 .env.*.local
+.env*
+.env.*
+
+# formatting config
+.prettierrc.*
+prettierrc.*
+.prettierrc.json
 
 # Log files
 npm-debug.log*
