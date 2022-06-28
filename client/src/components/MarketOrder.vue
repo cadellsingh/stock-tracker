@@ -6,7 +6,7 @@
     <div>
       <div class="flex-container">
         <p>Share price</p>
-        <p>{{openPrice}}</p>
+        <p>{{ openPrice }}</p>
       </div>
       <form>
         <div class="flex-container mt-7">
@@ -20,19 +20,19 @@
       </form>
       <div class="flex-container my-7">
         <p>Market price</p>
-        <p>{{marketPrice}}</p>
+        <p>{{ marketPrice }}</p>
       </div>
 
       <div class="border-b border-gray-300 my-7"></div>
 
       <div class="flex-container">
         <p>Buying Power</p>
-        <p>{{buyingPower}}</p>
+        <p>{{ buyingPower }}</p>
       </div>
 
       <div class="flex-container my-5">
         <p>Final cost</p>
-        <p>{{finalCost}}</p>
+        <p>{{ finalCost }}</p>
       </div>
 
       <button
@@ -50,8 +50,8 @@
 /* eslint-disable vue/no-unused-components */
 /* eslint-disable vue/multi-word-component-names */
 /* eslint-disable no-unused-vars */
-import {COMMISSION} from '../utils/constants'
-import {mapGetters} from "vuex"
+import { COMMISSION } from '../utils/constants'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'MarketOrder',
@@ -63,9 +63,6 @@ export default {
     return {
       shares: ''
     }
-  },
-  mounted() {
-    console.log('buying pwer: ', this.buyingPower);
   },
   methods: {
     async handleSubmit(e) {
@@ -84,14 +81,15 @@ export default {
         marketPrice: this.marketPrice
       }
       await this.$store.dispatch('simulator/addStock', payload)
-    },
+    }
   },
   computed: {
     ...mapGetters({
       buyingPower: 'simulator/buyingPower'
     }),
     marketPrice() {
-      return (this.openPrice * this.shares) || 0
+      const price = this.openPrice * this.shares || 0
+      return Math.round(price * 1000) / 1000
     },
     commissionPrice() {
       return `$${COMMISSION}.00`
@@ -103,7 +101,7 @@ export default {
 
       return 0
     }
-  },
+  }
 }
 </script>
 

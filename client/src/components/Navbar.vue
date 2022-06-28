@@ -11,6 +11,7 @@
             :key="link.url"
             >{{ link.title }}
           </router-link>
+          <li @click="handleLogOut">Log out</li>
         </ul>
         <div
           class="flex justify-between rounded-sm border-grey-light border-2 p-2 my-auto"
@@ -24,7 +25,6 @@
               placeholder="Search stock"
             />
           </form>
-
         </div>
       </nav>
     </Layout>
@@ -41,15 +41,15 @@ import Layout from '../components/Layout.vue'
 export default {
   name: 'Navbar',
   components: {
-  Layout,
-  // SearchIcon,
+    Layout
+    // SearchIcon,
   },
   data() {
     return {
       links: [
         { title: 'Account', url: '/user/account' },
         { title: 'Watchlist', url: '/user/watchlist' },
-        { title: 'Simulator', url: '/user/simulator' },
+        { title: 'Simulator', url: '/user/simulator' }
         // { title: 'Reports', url: '/user/reports' },
       ],
       search: ''
@@ -63,6 +63,10 @@ export default {
       if (currentRoute !== 'StockPage') {
         this.$router.push('StockPage')
       }
+    },
+    async handleLogOut() {
+      await this.$store.commit('logout')
+      this.$router.push({ name: 'Index' })
     }
   }
 }

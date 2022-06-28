@@ -54,6 +54,21 @@ const SimulationController = {
       return res.status(500).json({success: false, error: err})
     }
   },
+  deleteStock: async (req, res) => {
+    try {
+      const simulation = await Simulation.findById(req.params.id) // this will be the simulationed stock id
+
+      if (!simulation) {
+        return res.status(404).json({success: false, error: 'No stock found'})
+      }
+
+      await User.updateOne({_id: req.user.id}, {$pull: {simulation: simulation._id}})
+      await simulation.remove()
+      return res.status(200).json({success: true, data: "Stock deleted"})
+    } catch (err) {
+      return res.status(500).json({success: false, error: err})
+    }
+  }
 }
 
 module.exports = SimulationController

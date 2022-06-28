@@ -9,4 +9,7 @@ simulationRouter.get('/allStocks', verify, SimulationController.getAllStocks)
 
 simulationRouter.patch('/:id/update', verify, SimulationController.updateStock)
 
+simulationRouter.delete('/:id/delete', verify, SimulationController.deleteStock)
+
+
 module.exports = simulationRouter

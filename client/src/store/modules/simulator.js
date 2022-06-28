@@ -7,7 +7,7 @@ export default {
   namespaced: true,
   state: {
     simulatedStocks: [],
-    buyingPower: ''
+    buyingPower: TOTAL_BUYING_POWER
   },
   getters: {
     simulatedStocks: (s) => s.simulatedStocks,
@@ -21,11 +21,17 @@ export default {
       state.buyingPower = data
     },
     modifyBuyingPower(state, data) {
+      console.log('buying power: ', data)
       if (data.action === 'buy') {
         state.buyingPower -= data.marketPrice
       } else {
-        state.buyingPower = +data.marketPrice
+        state.buyingPower += data.marketPrice
       }
+    },
+    deleteStock(state, id) {
+      state.simulatedStocks = state.simulatedStocks.filter(
+        (el) => el._id !== id
+      )
     }
   },
   actions: {
@@ -60,6 +66,18 @@ export default {
       } catch (e) {
         console.warn(e)
         throw e
+      }
+    },
+    async closePosition({ commit }, id) {
+      console.log(id)
+      try {
+        const url = `http://localhost:6502/api/simulation/${id}/delete`
+        const response = await axios.delete(url)
+        if (response.status === 200) {
+          commit('deleteStock', id)
+        }
+      } catch (e) {
+        console.warn(e)
       }
     }
   }

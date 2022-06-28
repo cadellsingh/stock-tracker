@@ -30,6 +30,10 @@ export default new Vuex.Store({
     },
     setUserToken(state, data) {
       state.userToken = data
+    },
+    logout(state) {
+      state.user = null
+      state.userToken = null
     }
   },
   actions: {
@@ -45,7 +49,6 @@ export default new Vuex.Store({
       }
     },
     async updateUser({ commit }, payload) {
-      console.log('payload: ', payload)
       try {
         const { id, data } = payload
         const url = `http://localhost:6502/api/user/${id}`
@@ -71,7 +74,6 @@ export default new Vuex.Store({
         let res = null
         await axios.post(url, data).then((response) => {
           const user = response.data
-          console.log('user log in: ', user)
           this._vm.$storageService.setItem('token', JSON.stringify(user))
           axios.defaults.headers.common['Authorization'] =
             'Bearer ' + user.token
